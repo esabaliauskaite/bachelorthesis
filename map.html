@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="lt">
+  <head>
+    <title>Žemėlapis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&family=Oswald&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link rel="stylesheet" href="includes/style.css">
+    <link rel="shortcut icon" href="1x/vienas.svg" type="image/x-icon" />
+  </head>
+  <body>
+    <header>
+      <div id="Nav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+          <a href="index.html">Pagrindinis</a>
+          <a href="about.html">Apie</a>
+          <a href="pilys.php">Pilys</a>
+          <a href="fortai.php">Fortai</a>
+          <a href="map.html">Žemėlapis</a>
+        </div>
+      </div>
+      <div onclick="openNav()"><i id="bars" class="fas fa-bars"></i></div>
+    </header>
+    <ul class="breadcrumb">
+      <li><a href="index.html">Pagrindinis</a></li>
+      <li>Žemėlapis</li>
+    </ul>
+    <div class="outer">
+      <h1 class="mainpav">Žemėlapis</h1>
+    </div>
+    <div class="input">
+      <input id="pac-input" class="controls" type="text" placeholder="Kaunas,Lietuva">
+    </div> 
+    <div id="map"></div>
+    <script>
+      var map,locWin;
+      function initMap() {
+        var styledMapType = new google.maps.StyledMapType([{
+          "elementType": "geometry", 
+          "stylers": [
+            {"color": "#ebe3cd"}
+          ]},
+          {
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#523735"}
+          ]},
+          {
+          "elementType": "labels.text.stroke",
+          "stylers": [
+            {"color": "#f5f1e6"}
+          ]},
+          {
+          "featureType": "administrative",
+          "elementType": "geometry.stroke",
+          "stylers": [
+            {"color": "#c9b2a6"}
+          ]},
+          {
+          "featureType": "administrative.land_parcel",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "administrative.land_parcel",
+          "elementType": "geometry.stroke",
+          "stylers": [
+            {"color": "#dcd2be"}
+          ]},
+          {
+          "featureType": "administrative.land_parcel",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#ae9e90"}
+          ]},
+          {
+          "featureType": "administrative.neighborhood",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "landscape.natural",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#dfd2ae"}
+          ]},
+          {
+          "featureType": "poi",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#dfd2ae"}
+          ]},
+          {
+          "featureType": "poi",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#93817c"}
+          ]},
+          {
+          "featureType": "poi.business",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "poi.park",
+          "elementType": "geometry.fill",
+          "stylers": [
+            {"color": "#a5b076"}
+          ]},
+          {
+          "featureType": "poi.park",
+          "elementType": "labels.text",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "poi.park",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#447530"}
+          ]},
+          {
+          "featureType": "road",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#f5f1e6"}
+          ]},
+          {
+          "featureType": "road",
+          "elementType": "labels",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "road.arterial",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#fdfcf8"}
+          ]},
+          {
+          "featureType": "road.arterial",
+          "elementType": "labels",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "road.highway",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#f8c967"}
+          ]},
+          {
+          "featureType": "road.highway",
+          "elementType": "geometry.stroke",
+          "stylers": [
+            {"color": "#e9bc62"}
+          ]},
+          {
+          "featureType": "road.highway",
+          "elementType": "labels",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "road.highway.controlled_access",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#e98d58"}
+          ]
+          },
+          {
+          "featureType": "road.highway.controlled_access",
+          "elementType": "geometry.stroke",
+          "stylers": [
+            {"color": "#db8555"}
+          ]},
+          {
+          "featureType": "road.local",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "road.local",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#806b63"}
+          ]},
+          {
+          "featureType": "transit.line",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#dfd2ae"}
+          ]},
+          {
+          "featureType": "transit.line",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#8f7d77"}
+          ]},
+          {
+          "featureType": "transit.line",
+          "elementType": "labels.text.stroke",
+          "stylers": [
+            {"color": "#ebe3cd"}
+          ]},
+          {
+          "featureType": "transit.station",
+          "elementType": "geometry",
+          "stylers": [
+            {"color": "#dfd2ae"}
+          ]},
+          {
+          "featureType": "water",
+          "elementType": "geometry.fill",
+          "stylers": [
+            {"color": "#b9d3c2"}
+          ]},
+          {
+          "featureType": "water",
+          "elementType": "labels.text",
+          "stylers": [
+            {"visibility": "off"}
+          ]},
+          {
+          "featureType": "water",
+          "elementType": "labels.text.fill",
+          "stylers": [
+            {"color": "#92998d"}
+          ]}],
+          {name: 'Styled Map'});
+        // žemėlapio nustatymai
+        var map = new google.maps.Map(
+          document.getElementById('map'), {
+            zoom: 10, 
+            center: {lat: 54.687157, lng: 25.279652},
+            disableDefaultUI: true,
+            zoomControl: true,
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+            mapTypeIds: ['roadmap', 'terrain', 'hybrid', 'satellite']
+            },
+            scaleControl: true,
+            streetViewControl: true,
+            rotateControl: true
+        });
+        map.mapTypes.set('styled_map', styledMapType);
+        map.setMapTypeId('styled_map');
+        // dabartinė vieta
+        locWin = new google.maps.InfoWindow();
+        if (navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(function (p){
+            var position = {
+              lat: p.coords.latitude,
+              lng: p.coords.longitude
+            };
+            locWin.setPosition(position);
+            var cnt = "<p class='attributeplace'>Dabartinė vieta</p>";
+            locWin.setContent(cnt);
+            locWin.open(map);
+            map.setCenter(position);
+          },function(){
+            handleLocationError('Vietovės funkcijos klaida', map.center);
+          })
+        }else{
+          handleLocationError('Vietovės funkcija negalima', map.center);
+        }
+        //objektu info window
+        var infoWindow = new google.maps.InfoWindow();
+        downloadUrl('includes/markers.xml', function(data) {
+          var xml = data.responseXML;
+          var markers = xml.documentElement.getElementsByTagName('marker');
+          Array.prototype.forEach.call(markers, function(markerElem) {
+            var ly = markerElem.getAttribute('ly');
+            var lcf = markerElem.getAttribute('lcf');
+            var name = markerElem.getAttribute('pav');
+            var address = markerElem.getAttribute('adresas');
+            var tel = markerElem.getAttribute('telnr');
+            var web = markerElem.getAttribute('web');
+            var webc = markerElem.getAttribute('webc');
+            var type = markerElem.getAttribute('icon');
+            var nuot = markerElem.getAttribute('photo');
+            var aut = markerElem.getAttribute('aut');
+            var teis = markerElem.getAttribute('teis');
+            var lat = markerElem.getAttribute('lat');
+            var lon = markerElem.getAttribute('longti');
+            var point = new google.maps.LatLng(
+            parseFloat(markerElem.getAttribute('lat')),
+            parseFloat(markerElem.getAttribute('longti')));
+
+            var infowincontent = document.createElement('div');
+            var strong = document.createElement('strong');
+            strong.textContent = name
+            strong.classList.add('firstHeading');
+            infowincontent.appendChild(strong);
+            infowincontent.appendChild(document.createElement('br'));
+            var text = document.createElement('text');
+            if(lcf<10){
+              text.textContent = '  LY-0000'+lcf +'/LCF-00'+lcf
+              infowincontent.appendChild(text);
+            }else{
+              text.textContent = '  LY-000'+lcf +'/LCF-0'+lcf
+              infowincontent.appendChild(text);
+            };
+
+            var koor = document.createElement('text');
+            koor.textContent = '  Koordinatės: '+lon+', '+lat;
+            infowincontent.appendChild(koor);
+
+            var adr = document.createElement('text');
+            adr.textContent ='  Adresas: '+ address
+            infowincontent.appendChild(adr);
+            var telnr = document.createElement('text');
+            if(tel!=""){
+              telnr.textContent = '  Tel. nr. '+tel
+              infowincontent.appendChild(telnr);
+            }
+            var a = document.createElement('a');
+            var linkText = document.createTextNode('  '+ webc);
+            a.appendChild(linkText);
+            a.title = 'Svetainė';
+            a.href = web;
+            infowincontent.appendChild(a);
+
+            var img = document.createElement('img'); 
+            img.src = nuot;
+            img.classList.add("infoimageh");
+            infowincontent.appendChild(img); 
+            infowincontent.appendChild(document.createElement('br'));
+            var auti = document.createElement('text');
+            if(aut!=""){
+              auti.textContent = aut
+              auti.classList.add('attribute');
+              infowincontent.appendChild(auti);
+            }
+            var teisi = document.createElement('text');
+            if(teisi!=""){
+              teisi.textContent = teis
+              teisi.classList.add('attribute');
+              infowincontent.appendChild(teisi);
+            }
+            var imgspan = document.createElement('span');
+            imgspan.classList.add('infoimg');
+            imgspan.appendChild(img);
+            imgspan.appendChild(document.createElement('br'));
+            if(aut!=""){
+              imgspan.appendChild(auti);
+            }
+            if(teis!=""){
+             imgspan.appendChild(teisi);
+            }
+            infowincontent.appendChild(imgspan);
+
+            var infospan = document.createElement('span');
+            infospan.classList.add('info');
+            infospan.appendChild( document.createTextNode( '\u00A0' ) );
+            infospan.appendChild(text);
+            infospan.appendChild(document.createElement('br'));
+            infospan.appendChild( document.createTextNode( '\u00A0' ) );
+            infospan.appendChild(koor);
+            infospan.appendChild(document.createElement('br'));
+            infospan.appendChild( document.createTextNode( '\u00A0' ) );
+            infospan.appendChild(adr);
+            infospan.appendChild(document.createElement('br'));
+            infospan.appendChild( document.createTextNode( '\u00A0' ) );
+            if(tel!=""){
+              infospan.appendChild(telnr);
+              infospan.appendChild(document.createElement('br'));
+              infospan.appendChild( document.createTextNode( '\u00A0' ) );
+            }
+            if(a!=""){
+              infospan.appendChild(a);
+              infospan.appendChild(document.createElement('br'));
+            }
+            infowincontent.appendChild(infospan);
+              //nustatomi objektu zymekliai
+              var marker = new google.maps.Marker({
+              map: map,
+              position: point,
+              icon:type
+            });
+            marker.addListener('click', function() {
+              infoWindow.setContent(infowincontent);
+              infoWindow.open(map, marker);
+            });
+          });
+        });
+        // Paieška žemėlapyje
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(input);
+        // Pakeičia paieškos lauko vietą pagal dabartinį žemėlapio dydį
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+        var markers = [];
+        // Įvykis, kuris pradeda veikti kai vartotojas pasirenka vieną iš siulymų ir gauna daugiau informacijos apie tą vietą
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+          if (places.length == 0) {
+            return;
+          }
+          // Pašalina anktesnius žymeklius
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+          // Kiekvienai vietai gaunamas, pavadinimas, vieta ir žymeklis
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            if (place.geometry.viewport) {
+              bounds.union(place.geometry.viewport);
+            }else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+      function handleLocationError(content,position){
+        locWin.setPosition(position);
+        locWin.setContent(content);
+        locWin.open(map);
+      }
+      function downloadUrl(url,callback) {
+        var request = window.ActiveXObject ?
+        new ActiveXObject('Microsoft.XMLHTTP') :
+        new XMLHttpRequest();
+        request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request, request.status);
+        }};
+        request.open('GET', url, true);
+        request.send(null);
+      }
+      function doNothing() {}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4etLtVbE3M1hXAT0FUmH1YxSD9YYwARM&callback=initMap&libraries=places"
+    async defer>
+    </script>
+    <script>
+      function openNav() {
+        document.getElementById("Nav").style.width = "100%";
+      }
+      function closeNav() {
+        document.getElementById("Nav").style.width = "0%";
+      }
+    </script>
+    <footer class="mapfooter">
+      <p>© Eglė Sabaliauskaitė. Vilniaus Gedimino technikos universitetas <script>document.write(new Date().getFullYear());</script> </p>
+    </footer>
+  </body>
+</html>

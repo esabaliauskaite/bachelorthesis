@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="lt">
+  <head>
+    <title>Apie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&family=Oswald&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link rel="stylesheet" href="includes/style.css">
+    <link rel="shortcut icon" href="1x/vienas.svg" type="image/x-icon" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-165852238-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-165852238-1');
+    </script>
+  </head>
+  <body> 
+    <header>
+      <div id="Nav" class="overlay">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+          <a href="index.html">Pagrindinis</a>
+          <a href="about.html">Apie</a>
+          <a href="pilys.php">Pilys</a>
+          <a href="fortai.php">Fortai</a>
+          <a href="map.html">Žemėlapis</a>
+        </div>
+      </div>
+      <div onclick="openNav()"><i id="bars" class="fas fa-bars"></i></div>
+    </header>
+    <ul class="breadcrumb">
+      <li><a href="index.html">Pagrindinis</a></li>
+      <li>Apie</li>
+    </ul>
+    <div>
+      <h1 class="mainpav">Apie</h1>
+      <div class="content">
+        <img src="1x/wca.gif" id="wcalogo" alt="WCA logotipas">
+        <p>Šis puslapis yra skirtas Tarptautinių apdovanojimų programai „Pasaulio pilių apdovanojimas - WCA“ Lietuvoje. Tarptautinių apdovanojimų programa „Pasaulio pilių apdovanojimas - WCA“, 
+        skirta darbui iš pilių, tvirtovių ir forto tipo objektų. Jį įkūrė 2009 m. Sausio 14 d. 
+        grupė Rusijos radijo bangų mėgėjų, RZ1CWC radijo klubo narių, globojamų tarptautinės 
+        organizacijos „Castles On The Air - COTA“.
+        Programos tikslas - sustiprinti įvairių šalių radijo mėgėjus taip pat suaktyvinant 
+        ir populiarinant istorinius objektus - pilis, tvirtoves ir kt. visame pasaulyje, 
+        mokytis ir prižiūrėti istorinį paveldą mūsų šalyse, įskaitant paminklus ir architektūrinius 
+        statinius, susijusius su fortais.
+        Pasaulio pilių apdovanojimų programą sudaro 11 diplomų, 1 apdovanojimų lentelė ir 
+        E-apdovanojimų serija, skirta QSO / SWL su radijo stotimis, veikiančiomis iš viso 
+        pasaulio pilių, tvirtovių ir kt.</p>
+      </div>
+      <a href="http://wcagroup.org/?page_id=83" id="wcainfo">Pasaulio pilių apdovanojimas - WCA</a>
+    </div>
+    <script>
+        function openNav() {
+          document.getElementById("Nav").style.width = "100%";
+        }
+        function closeNav() {
+          document.getElementById("Nav").style.width = "0%";
+        }
+    </script>
+    <br>
+    <footer class="footer">
+      <p>© Eglė Sabaliauskaitė. Vilniaus Gedimino technikos universitetas <script>new Date().getFullYear()>2010&&document.write(new Date().getFullYear());</script> </p>
+    </footer>
+    </body>
+</html>
